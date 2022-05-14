@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option go_package = "gitlab.ozon.dev/cyxrop/homework-2/api";
+
+package api;
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+message RegisterUserRequest {
+  string telegram_username = 1;
+  int64 telegram_chat_id = 2;
+}
+
+message ID {
+  int64 ID = 1;
+}
+
+message ByTelegramUsername {
+  string telegram_username = 1;
+}
+
+message RegisterMailboxRequest {
+  string telegram_username = 1;
+  string mail = 2;
+  string password = 3;
+}
+
+message DeleteMailboxRequest {
+  string telegram_username = 1;
+  string mail = 2;
+}
+
+service UserService {
+  rpc Register(RegisterUserRequest) returns (ID) {
+    option (google.api.http) = {
+      post:"/v1/users",
+      body: "*"
+    };
+  }
+  rpc Notify(ByTelegramUsername) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post:"/v1/users/{telegram_username}/notify"
+    };
+  }
+  rpc DeleteByTelegramUsername(ByTelegramUsername) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete:"/v1/users/{telegram_username}"
+    };
+  }
+
+  rpc RegisterMailbox(RegisterMailboxRequest) returns (ID) {
+    option (google.api.http) = {
+      post:"/v1/users/{telegram_username}/mailboxes",
+      body: "*"
+    };
+  }
+  rpc DeleteMailbox(DeleteMailboxRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete:"/v1/users/{telegram_username}/mailboxes/{mail}"
+    };
+  }
+}

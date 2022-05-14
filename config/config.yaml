@@ -1,0 +1,18 @@
+app:
+  grpc:
+    port: 8080
+  http:
+    port: 8081
+
+imap:
+  hosts:
+    google: "imap.gmail.com:993"
+    mail_ru: "imap.mail.ru:993"
+    yandex: "imap.yandex.ru:993"
+
+telegram:
+  timeout: 60
+  debug: true
+
+notifier:
+  every: 5 # run notifier every n minutes
