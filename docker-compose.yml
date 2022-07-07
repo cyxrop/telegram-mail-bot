@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  db:
+    container_name: mail_bot_pg
+    image: postgres:13.3
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=homework_2
+    volumes:
+      - ./db-data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: mail_bot_app
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    env_file:
+      - ./docker/.env
+    depends_on:
+      - db

@@ -1,0 +1,6 @@
+.idea
+ bin/
+db-data/
+cert/
+docker/.env
+/build
